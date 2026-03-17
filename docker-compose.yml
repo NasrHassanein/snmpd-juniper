@@ -1,0 +1,28 @@
+###############################################################################
+# docker-compose.yml — Juniper SNMP Simulator
+#
+# Usage:
+#   docker compose up -d
+#   snmpget  -v2c -c public localhost:10161 sysDescr.0
+#   snmpwalk -v2c -c public localhost:10161 .1.3.6.1.4.1.2636.3.1.13
+###############################################################################
+
+services:
+  juniper-mx240-01:
+    build: .
+    container_name: juniper-mx240-01
+    hostname: mx240-pe01
+    ports:
+      - "10161:161/udp"
+    restart: unless-stopped
+
+  # ── Example: second router on a different port ──
+  # juniper-mx240-02:
+  #   build: .
+  #   container_name: juniper-mx240-02
+  #   hostname: mx240-pe02
+  #   ports:
+  #     - "10162:161/udp"
+  #   volumes:
+  #     - ./snmpd-mx240-02.conf:/etc/snmp/snmpd.conf:ro
+  #   restart: unless-stopped
